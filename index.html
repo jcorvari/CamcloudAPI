@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="css/main.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Camcloud Developer Portal – Quick&nbsp;Start</title>
+
+  <!-- ***** In–page CSS ***** -->
+  
+<style>
+  nav{
+    position:sticky;top:0;z-index:999;
+    display:flex;align-items:center;justify-content:flex-start;
+    padding:1.25rem 3rem;background:var(--bg-light,#152534);
+    box-shadow:0 2px 6px rgba(0,0,0,.4);
+  }
+  nav img{height:72px}
+  nav ul{
+    display:flex;flex:1;justify-content:space-evenly;list-style:none;
+    margin-left:2.5rem;padding:0;
+  }
+  nav ul li a{
+    font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
+    text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
+    transition:color .25s,border-bottom-color .25s;
+  }
+  nav ul li a:hover,nav ul li a:focus{
+    color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
+  }
+</style>
+
+</head>
+<body>
+
+<nav>
+  <img src="images/camcloud.png" alt="Camcloud logo" />
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
+    <li><a href="examples.html">Examples</a></li>
+    <li><a href="api-reference.html">API&nbsp;Reference</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
+</nav>
+
+
+  <main>
+
+    <section>
+      <h1>Getting Started with the Camcloud REST API</h1>
+      <p>This short guide walks you through generating an API key, authenticating in Swagger, discovering your account and camera IDs, and pulling your first data. It’s a rapid on-ramp—within 5 minutes you should be programmatically <em>streaming</em>, <em>recording</em> and <em>managing</em> cameras.</p>
+
+      <ol>
+        <li><strong>Create an API Key →</strong> In the Camcloud portal open <code>Settings › API Keys</code>.</li>
+        <li><strong>Authenticate in Swagger →</strong> Navigate to <code>https://api.hostedcloudvideo.com</code>, click <em>Authorize</em> and paste your key.</li>
+        <li><strong>Grab your <code>accountID</code></strong> by executing <code>AuthorizeV2</code>.</li>
+        <li><strong>List cameras</strong> with <code>ListCamerasV1</code>.</li>
+        <li><strong>Fetch a snapshot</strong> via <code>getSnapshotForCameraV1</code> supplying a <code>cameraID</code>.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Authentication &amp; Authorisation</h2>
+      <p>The API is secured with a JSON Web Token (JWT) that you obtain via the <code>AuthorizeV2</code> endpoint. The token is valid for 24 hours by default; simply refresh the token before expiry to avoid service disruption.</p>
+
+<pre><code># Request
+POST /authorizeV2
+Content-Type: application/json
+{
+  "apiKey": "YOUR-API-KEY"
+}
+
+# Response
+{
+  "token": "eyJhbGciOi...",
+  "expiresIn": 86400
+}
+</code></pre>
+
+      <p>Pass the token in the <code>Authorization: Bearer &lt;token&gt;</code> header on subsequent requests.</p>
+    </section>
+
+    <section>
+      <h2>Core Camera Operations</h2>
+      <p>The table below lists the most frequently used camera endpoints.</p>
+
+      <table>
+        <thead>
+          <tr><th>Endpoint</th><th>Method</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>ListCamerasV1</code></td><td>GET</td><td>Returns every camera in the given account</td></tr>
+          <tr><td><code>AddCameraV2</code></td><td>POST</td><td>Provision a new camera (ONVIF or custom RTSP)</td></tr>
+          <tr><td><code>UpdateCameraV2</code></td><td>PATCH</td><td>Update a camera’s name, timezone, recording mode, etc.</td></tr>
+          <tr><td><code>DeleteCameraV1</code></td><td>DELETE</td><td>De-provision (remove) a camera</td></tr>
+          <tr><td><code>getSnapshotForCameraV1</code></td><td>GET</td><td>Grab a JPEG snapshot at the current moment</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Live Streaming &amp; Playback</h2>
+      <p>For browsers or native apps use the <code>getStreamUrlForCameraV1</code> endpoint to retrieve an HLS or RTMP URL. A signed URL is returned—pass it directly to your player of choice (e.g. Video JS, ExoPlayer, VLC).</p>
+    </section>
+
+    <section>
+      <h2>Event Webhooks</h2>
+      <p>Receive instant push notifications for motion, tamper, disconnect and cloud recording events. Configure webhooks via the portal or <code>CreateWebhookV1</code>. The payload includes identifiers, timestamps and a signed snapshot URL.</p>
+    </section>
+
+  </main>
+
+</body>
+</html>
