@@ -5,42 +5,75 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>API Reference – Camcloud Developer</title>
 <link rel="stylesheet" href="css/main.css">
+
+
+<style>html,body{background:#ffffff;color:#000000;} iframe{width:100%;height:calc(100vh - 90px);border:none;}</style>
+
 <style>
   nav{
     position:sticky;top:0;z-index:999;
-    display:flex;align-items:center;justify-content:flex-start;
-    padding:1.25rem 3rem;background:var(--bg-light,#152534);
+    display:flex;align-items:center;gap:1rem;
+    padding:1.25rem 1.5rem;background:var(--bg-light,#152534);
     box-shadow:0 2px 6px rgba(0,0,0,.4);
   }
   nav img{height:72px}
-  nav ul{
-    display:flex;flex:1;justify-content:space-evenly;list-style:none;
-    margin-left:2.5rem;padding:0;
+  .menu-toggle{
+    display:none;background:none;border:none;cursor:pointer;margin-left:auto;
   }
-  nav ul li a{
+  .menu-toggle svg{width:32px;height:32px}
+  .nav-links{
+    display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0;
+  }
+  .nav-links li a{
     font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
     text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
     transition:color .25s,border-bottom-color .25s;
   }
-  nav ul li a:hover,nav ul li a:focus{
+  .nav-links li a:hover,.nav-links li a:focus{
     color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
+  }
+
+  /* Mobile */
+  @media (max-width: 700px){
+    .menu-toggle{display:block;}
+    .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
+      background:var(--bg-light,#152534);padding:1rem 0;gap:1rem;text-align:center;}
+    nav.open .nav-links{display:flex;}
   }
 </style>
 
-<style>html,body{background:#ffffff;color:#000000;} iframe{width:100%;height:calc(100vh - 90px);border:none;}</style>
 </head>
 <body>
+
 <nav>
   <img src="images/camcloud.png" alt="Camcloud logo" />
-  <ul>
+  
+  <button class="menu-toggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"/></svg>
+  </button>
+
+
+  <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
     <li><a href="examples.html">Examples</a></li>
     <li><a href="api-reference.html">API&nbsp;Reference</a></li>
     <li><a href="changelog.html">Changelog</a></li>
   </ul>
+
 </nav>
 
+
 <iframe src="https://api.hostedcloudvideo.com/index.html#/"></iframe>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const btn = document.querySelector('.menu-toggle');
+    if(btn){
+      btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
+    }
+  });
+</script>
+
 </body>
 </html>
