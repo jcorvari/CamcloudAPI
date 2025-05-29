@@ -1,79 +1,98 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Camcloud Developer Portal – Quick Start</title>
-  <link rel="stylesheet" href="css/main.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Camcloud – Quick Start Guide</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    body{{background:#0b1620;color:#e8f0ff;font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}}
-    h1{{font-size:2.25rem;margin-bottom:1.25rem}}
-    h2{{font-size:1.45rem;margin-top:2rem;color:#29b6f6}}
-    img.screenshot{{border:1px solid #304357;border-radius:4px;max-width:100%;height:auto}}
-    code{{background:#182534;color:#c9d1d9;padding:2px 4px;border-radius:4px}}
-    pre{{background:#0d1117;color:#c9d1d9;padding:1rem;border-radius:6px;overflow-x:auto}}
-    table{{width:100%;border-collapse:collapse;margin-top:1rem}}
-    th,td{{border:1px solid #304357;padding:.6rem;text-align:left}}
-    th{{background:#152534}}
-    nav{{position:sticky;top:0;z-index:999;display:flex;align-items:center;gap:1rem;
-        padding:1rem 1.5rem;background:#152534;box-shadow:0 2px 6px rgba(0,0,0,.4)}}
-    nav img{{height:64px}}
-    .nav-links{{display:flex;gap:1.25rem;margin-left:auto}}
-    .nav-links a{{color:#e8f0ff;text-decoration:none;font-weight:600}}
+    :root{
+      --bg-dark:#0b1620;--bg-nav:#152534;--txt:#e8f0ff;--acc:#29b6f6;--border:#304357;--code:#0d1117;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg-dark);color:var(--txt);
+         font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+    /* ---------- NAV ---------- */
+    nav{position:sticky;top:0;z-index:999;display:flex;align-items:center;gap:1rem;
+        padding:1rem 1.5rem;background:var(--bg-nav);box-shadow:0 2px 6px rgba(0,0,0,.45)}
+    nav img{height:56px}
+    .nav-links{display:flex;gap:1.2rem;margin-left:auto;list-style:none;padding:0;margin:0}
+    .nav-links a{color:var(--txt);text-decoration:none;font-weight:600;border-bottom:3px solid transparent;padding-bottom:4px;transition:.25s}
+    .nav-links a:hover,.nav-links a:focus{color:var(--acc);border-bottom-color:var(--acc)}
+    /* ---------- LAYOUT ---------- */
+    main{max-width:960px;margin:0 auto;padding:2rem 1rem}
+    h1{font-size:2.3rem;margin-bottom:1.3rem;text-align:center}
+    h2{font-size:1.45rem;margin:2rem 0 1rem;color:var(--acc)}
+    p.note{color:#adb5bd;font-size:.9rem;margin:.3rem 0 .6rem}
+    img.screenshot{border:1px solid var(--border);border-radius:4px;max-width:100%;height:auto;display:block;margin:1rem auto}
+    code{background:#182534;color:#c9d1d9;padding:2px 4px;border-radius:4px}
+    pre{background:var(--code);color:#c9d1d9;padding:1rem;border-radius:6px;overflow-x:auto}
+    table{width:100%;border-collapse:collapse;margin-top:1rem}
+    th,td{border:1px solid var(--border);padding:.6rem;text-align:left}
+    th{background:var(--bg-nav)}
+    @media(max-width:700px){
+      .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;background:var(--bg-nav);padding:1rem 0}
+      nav.open .nav-links{display:flex}
+      .menu-toggle{display:block}
+    }
+    .menu-toggle{display:none;background:none;border:none;cursor:pointer;margin-left:auto}
+    .menu-toggle svg{width:30px;height:30px;fill:#fff}
   </style>
 </head>
 <body>
 <nav>
-  <img src="images/camcloud.png" alt="Camcloud logo">
-  <div class="nav-links">
-    <a href="index.html">Home</a>
-    <a href="quick-start.html">Quick Start</a>
-    <a href="examples.html">Examples</a>
-    <a href="api-reference.html">API Reference</a>
-    <a href="changelog.html">Changelog</a>
-  </div>
+  <img src="images/camcloud.png" alt="Camcloud">
+  <button class="menu-toggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+  </button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="quick-start.html">Quick Start</a></li>
+    <li><a href="examples.html">Examples</a></li>
+    <li><a href="api-reference.html">API Reference</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
 </nav>
 
 <main>
-  <h1>Quick Start – Integrate with Camcloud REST API in 5 Steps</h1>
-  <p>This guide shows you how to turn a fresh API key into working calls within minutes. Every step is demonstrated in the live Swagger UI so you can copy‑paste the IDs straight into your code.</p>
+  <h1>Quick Start – Integrate with Camcloud REST API in 5 Steps</h1>
+  <p>This concise guide walks you from obtaining an API key to pulling your very first snapshot, leveraging the live Swagger UI so you can copy‑paste IDs directly into your code.</p>
 
   <h2>1. Generate an API Key</h2>
-  <p>In the Camcloud portal go to <strong>Settings → API Keys</strong>, press <em>Create</em> and copy the key.</p>
-  <img src="images/step1.png" alt="Generate API Key" class="screenshot">
+  <p>In the Camcloud portal open <strong>Settings → API Keys</strong>, press <em>Create</em> and copy the key that appears (it’s shown only once).</p>
+  <img src="images/step1.png" alt="Generate API key" class="screenshot">
 
   <h2>2. Authorise in Swagger</h2>
-  <p>Open <code>https://api.hostedcloudvideo.com</code>, click <strong>Authorize</strong>, paste the key into the <code>bearerAuth</code> box and hit <em>Authorize</em>.</p>
-  <img src="images/step2.png" alt="Swagger Authorise" class="screenshot">
+  <p>Go to <code>https://api.hostedcloudvideo.com</code>, click <strong>Authorize</strong>, paste the key into the <code>bearerAuth</code> field and confirm.</p>
+  <img src="images/step2.png" alt="Swagger authorize" class="screenshot">
 
   <h2>3. Discover your <code>accountId</code></h2>
-  <p>Execute <code>POST /v1/authorizeV2</code>. The response contains your <code>accountId</code>, <code>userUuid</code> and role.</p>
-  <img src="images/step3.png" alt="AuthorizeV2 response" class="screenshot">
+  <p>Run <code>POST /v1/authorizeV2</code>. The response payload contains <code>accountId</code>, <code>userUuid</code> and your role.</p>
+  <img src="images/step3.png" alt="authorizeV2 response" class="screenshot">
   <pre><code class="language-json">{{
   "accountId": "123456",
   "userUuid": "550e8400-e29b-41d4-a716-446655440000",
   ...
 }}</code></pre>
 
-  <h2>4. List cameras &amp; grab a <code>cameraId</code></h2>
-  <p>Call <code>GET /v1/accounts/&lt;accountId&gt;/cameras</code> or run <strong>ListCamerasV1</strong> in Swagger.</p>
-  <img src="images/step4.png" alt="List Cameras" class="screenshot">
-
-<pre><code class="language-shell">curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
+  <h2>4. List cameras &amp; capture a <code>cameraId</code></h2>
+  <p>Call <code>GET /v1/accounts/&lt;accountId&gt;/cameras</code> or execute <em>ListCamerasV1</em> in Swagger. Copy one <code>id</code> value for the next step.</p>
+  <img src="images/step4.png" alt="List cameras" class="screenshot">
+  <pre><code class="language-shell">curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
      https://api.hostedcloudvideo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/cameras
 </code></pre>
 
   <h2>5. Pull your first snapshot</h2>
-  <p>Grab a live JPEG (or specify an ISO‑8601 timestamp) via <code>/v1/cameras/&lt;cameraId&gt;/snapshot</code>.</p>
+  <p>Fetch a live JPEG (or add <code>?time=ISO-8601</code> for historical) via <code>/v1/cameras/&lt;cameraId&gt;/snapshot</code>.</p>
   <img src="images/step5.png" alt="Snapshot endpoint" class="screenshot">
-
-<pre><code class="language-python">import os, requests
+  <pre><code class="language-python">import os, requests
 BASE = "https://api.hostedcloudvideo.com"
 CAM  = "&lt;CAMERA_ID&gt;"
 API  = os.environ["API_KEY"]
 
-snap = requests.get(f"{{BASE}}/v1/cameras/{{CAM}}/snapshot",
-                    headers={{"Authorization":f"Bearer {{API}}"}}).content
+snap = requests.get(f"{BASE}/v1/cameras/{CAM}/snapshot",
+                    headers={{"Authorization": f"Bearer {API}"}}).content
 open("latest.jpg","wb").write(snap)
 </code></pre>
 
@@ -83,17 +102,23 @@ open("latest.jpg","wb").write(snap)
     <tbody>
       <tr><td>/v1/cameras</td><td>GET</td><td>List cameras (account‑wide)</td></tr>
       <tr><td>/v1/cameras</td><td>POST</td><td>Add a new camera (P2P, ONVIF, RTSP)</td></tr>
-      <tr><td>/v1/cameras/{{cameraId}}</td><td>PUT</td><td>Rename or change timezone</td></tr>
-      <tr><td>/v1/cameras/{{cameraId}}/snapshot</td><td>GET</td><td>Current or historical JPEG</td></tr>
-      <tr><td>/v1/accounts/{{accountId}}/health</td><td>GET</td><td>One‑line health status per camera</td></tr>
+      <tr><td>/v1/cameras/{{cameraId}}</td><td>PUT</td><td>Rename / change timezone</td></tr>
+      <tr><td>/v1/cameras/{{cameraId}}/snapshot</td><td>GET</td><td>Live or historical JPEG</td></tr>
+      <tr><td>/v1/accounts/{{accountId}}/health</td><td>GET</td><td>One‑line health status</td></tr>
     </tbody>
   </table>
 
-  <h2>Next Steps</h2>
+  <h2>Next Steps</h2>
   <ul>
-    <li>Explore the <a href="examples.html">Examples</a> page for ready‑to‑run code in Python, PHP and cURL.</li>
-    <li>Read the full <a href="api-reference.html">OpenAPI spec</a> to integrate advanced features like AI analytics and exports.</li>
+    <li>Copy ready‑made code on the <a href="examples.html">Examples</a> page (Python, PHP, cURL).</li>
+    <li>Dive into the full <a href="api-reference.html">OpenAPI spec</a> for advanced features (AI analytics, exports, schedules).</li>
   </ul>
 </main>
+
+<script>
+/* mobile nav toggle */
+document.querySelector('.menu-toggle')?.addEventListener('click',e=>
+  e.currentTarget.parentElement.classList.toggle('open'));
+</script>
 </body>
 </html>
