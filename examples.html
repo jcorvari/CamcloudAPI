@@ -4,43 +4,155 @@
   <meta charset="utf-8">
   <title>Camcloud API Examples</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Optional site-wide stylesheet (leave if you already have main.css) -->
+  <link rel="stylesheet" href="css/main.css">
+
+  <!-- FontAwesome for icons -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    /* ——— layout (unchanged) ——— */
-    body{margin:0;font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
-    nav{background:#152534;padding:1rem 1.5rem;display:flex;gap:1rem;align-items:center}
+    /* ───────────  GLOBAL  ─────────── */
+    :root{
+      --bg-dark: #0b1620;
+      --bg-nav : #152534;
+      --bg-code: #0d1117;
+      --border : #304357;
+      --text   : #e8f0ff;
+      --accent : #29b6f6;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg-dark);color:var(--text);
+         font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+
+    /* ───────────  NAVIGATION  ─────────── */
+    nav{
+      position:sticky;top:0;z-index:999;
+      display:flex;align-items:center;gap:1rem;
+      padding:1rem 1.5rem;background:var(--bg-nav);
+      box-shadow:0 2px 6px rgba(0,0,0,.4)
+    }
     nav img{height:64px}
+    .menu-toggle{
+      display:none;background:none;border:none;cursor:pointer;margin-left:auto
+    }
+    .menu-toggle svg{width:32px;height:32px;fill:#fff}
+    .nav-links{
+      display:flex;flex:1;justify-content:space-evenly;
+      list-style:none;margin-left:auto;padding:0
+    }
+    .nav-links a{
+      font-size:1.1rem;font-weight:600;color:var(--text);
+      text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
+      transition:color .25s,border-bottom-color .25s
+    }
+    .nav-links a:hover,.nav-links a:focus{
+      color:var(--accent);border-bottom-color:var(--accent)
+    }
+    /* Mobile */
+    @media (max-width:700px){
+      .menu-toggle{display:block}
+      .nav-links{
+        display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
+        background:var(--bg-nav);gap:1rem;text-align:center;padding:1rem 0
+      }
+      nav.open .nav-links{display:flex}
+    }
+
+    /* ───────────  PAGE LAYOUT  ─────────── */
     main{max-width:960px;margin:2.5rem auto;padding:0 1rem}
     h1{font-size:2.25rem;margin-bottom:1.25rem}
-    h2{font-size:1.45rem;margin:2.25rem 0 1rem;color:#29b6f6}
-    article{border-bottom:1px solid #304357;padding-bottom:2.5rem}
-    /* ——— code switcher ——— */
-    .code-sample{border:1px solid #304357;border-radius:6px;margin-top:.6rem}
-    .code-toolbar{display:flex;justify-content:space-between;background:#1e2735;
-                  padding:.35rem .6rem}
-    .lang-btn{background:none;border:none;font-size:1.2rem;color:#c9d1d9;
-              margin-right:.45rem;cursor:pointer;opacity:.55}
+    h2{font-size:1.45rem;margin:2.25rem 0 1rem;color:var(--accent)}
+    article{border-bottom:1px solid var(--border);padding-bottom:2.5rem}
+
+    /* ───────────  CODE BLOCKS  ─────────── */
+    .code-sample{border:1px solid var(--border);border-radius:6px;margin-top:.6rem}
+    .code-toolbar{
+      display:flex;justify-content:space-between;align-items:center;
+      background:#1e2735;padding:.35rem .6rem;border-bottom:1px solid var(--border)
+    }
+    .lang-btn{
+      background:none;border:none;font-size:1.25rem;color:#c9d1d9;cursor:pointer;
+      margin-right:.45rem;opacity:.55;transition:opacity .2s
+    }
     .lang-btn.active{opacity:1}
-    .copy-btn{background:none;border:none;color:#c9d1d9;font-size:1.05rem;cursor:pointer}
-    pre{margin:0;background:#0d1117;color:#c9d1d9;padding:1rem;overflow-x:auto;font-size:.88rem}
+    .copy-btn{
+      background:none;border:none;color:#c9d1d9;font-size:1.1rem;cursor:pointer
+    }
+    pre{margin:0;background:var(--bg-code);color:#c9d1d9;padding:1rem;
+        overflow-x:auto;font-size:.88rem}
     pre.hidden{display:none}
     code{font-family:Consolas,monaco,monospace}
+    p.note{margin:.3rem 0 .6rem;color:#adb5bd;font-size:.9rem}
   </style>
 </head>
 <body>
 
+<!-- ───────────  NAV BAR  ─────────── -->
 <nav>
   <img src="images/camcloud.png" alt="Camcloud logo">
-  <!-- nav links omitted for brevity -->
+
+  <!-- Mobile hamburger -->
+  <button class="menu-toggle" aria-label="Menu">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+  </button>
+
+  <!-- Links -->
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
+    <li><a href="examples.html">Examples</a></li>
+    <li><a href="api-reference.html">API&nbsp;Reference</a></li>
+    <li><a href="changelog.html">Changelog</a></li>
+  </ul>
 </nav>
 
+<!-- ───────────  MAIN CONTENT  ─────────── -->
 <main>
   <h1>Practical API Examples</h1>
 
-  <!-- 1 ── Discover account context ─────────────────────────────── -->
+  <!-- ========== 1. Discover account context ========== -->
   <article id="authorize">
-    <h2>1&nbsp;·&nbsp;Discover your account context <small>/v1/authorizeV2</small></h2>
+    <h2>1 · Discover your account context <small>/v1/authorizeV2</small></h2>
+
+    <div class="code-sample">
+      <div class="code-toolbar">
+        <div>
+          <button class="lang-btn active" data-lang="python" title="Python">
+            <i class="fa-brands fa-python"></i></button>
+          <button class="lang-btn" data-lang="php" title="PHP">
+            <i class="fa-brands fa-php"></i></button>
+          <button class="lang-btn" data-lang="shell" title="cURL">
+            <i class="fa-solid fa-terminal"></i></button>
+        </div>
+        <button class="copy-btn" title="Copy"><i class="fa-regular fa-copy"></i></button>
+      </div>
+
+      <pre data-lang="python"><code>import os, requests, pprint
+BASE = "https://api.hostedcloudvideo.com"
+API  = os.environ["API_KEY"]
+
+r = requests.get(f"{BASE}/v1/authorizeV2",
+                 headers={"Authorization":f"Bearer {API}"})
+pprint.pp(r.json())</code></pre>
+
+      <pre data-lang="php" class="hidden"><code>&lt;?php
+$base='https://api.hostedcloudvideo.com'; $api=getenv('API_KEY');
+$ch=curl_init("$base/v1/authorizeV2");
+curl_setopt_array($ch,[CURLOPT_HTTPHEADER=>["Authorization: Bearer $api"],
+                      CURLOPT_RETURNTRANSFER=>true]);
+echo curl_exec($ch);</code></pre>
+
+      <pre data-lang="shell" class="hidden"><code>curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
+  https://api.hostedcloudvideo.com/v1/authorizeV2</code></pre>
+    </div>
+  </article>
+
+  <!-- ========== 2. List all cameras ========== -->
+  <article id="list-cams">
+    <h2>2 · List all cameras <small>/v1/accounts/{accountId}/cameras</small></h2>
+
     <div class="code-sample">
       <div class="code-toolbar">
         <div>
@@ -51,52 +163,51 @@
         <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
       </div>
 
-      <pre data-lang="python"><code>import os, requests, pprint
-BASE = "https://api.hostedcloudvideo.com"
-r = requests.get(f"{BASE}/v1/authorizeV2",
-                 headers={"Authorization": f"Bearer {os.environ['API_KEY']}"})
-pprint.pp(r.json())</code></pre>
+      <pre data-lang="python"><code>import os, requests, json
+BASE   = "https://api.hostedcloudvideo.com"
+ACCT   = "&lt;ACCOUNT_ID&gt;"
+APIKEY = os.environ["API_KEY"]
+
+r = requests.get(f"{BASE}/v1/accounts/{ACCT}/cameras",
+                 headers={"Authorization":f"Bearer {APIKEY}"})
+print(json.dumps(r.json(),indent=2))</code></pre>
 
       <pre data-lang="php" class="hidden"><code>&lt;?php
-$base='https://api.hostedcloudvideo.com';
+$base='https://api.hostedcloudvideo.com'; $acct='&lt;ACCOUNT_ID&gt;';
 $api=getenv('API_KEY');
-$ch=curl_init("$base/v1/authorizeV2");
+$ch=curl_init("$base/v1/accounts/$acct/cameras");
 curl_setopt_array($ch,[CURLOPT_HTTPHEADER=>["Authorization: Bearer $api"],
                       CURLOPT_RETURNTRANSFER=>true]);
-print_r(json_decode(curl_exec($ch),true));</code></pre>
+echo curl_exec($ch);</code></pre>
 
       <pre data-lang="shell" class="hidden"><code>curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
-  https://api.hostedcloudvideo.com/v1/authorizeV2</code></pre>
+  https://api.hostedcloudvideo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/cameras</code></pre>
     </div>
   </article>
 
-  <!-- 2 ── List cameras ─────────────────────────────────────────── -->
-  <article id="list-cams">
-    <h2>2&nbsp;·&nbsp;List all cameras <small>/v1/accounts/{accountId}/cameras</small></h2>
-    <!-- same switcher structure … (omitted for brevity) -->
-  </article>
-
-  <!-- 3 ── Health history ───────────────────────────────────────── -->
+  <!-- ========== 3. Health history ========== -->
   <article id="health-history">
-    <h2>3&nbsp;·&nbsp;Health history for cameras <small>/v1/accounts/{accountId}/health-history</small></h2>
-    <p style="margin:.3rem 0 .6rem;color:#adb5bd">
-      Returns every state-change for the account’s cameras – great for dashboards or reports.:contentReference[oaicite:5]{index=5}
-    </p>
+    <h2>3 · Health history for cameras <small>/v1/accounts/{accountId}/health-history</small></h2>
+    <p class="note">Returns every state-change event for the account’s cameras.</p>
+
     <div class="code-sample">
       <div class="code-toolbar">
         <div>
           <button class="lang-btn active" data-lang="python"><i class="fa-brands fa-python"></i></button>
           <button class="lang-btn" data-lang="php"><i class="fa-brands fa-php"></i></button>
           <button class="lang-btn" data-lang="shell"><i class="fa-solid fa-terminal"></i></button>
-        </div><button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+        </div>
+        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
       </div>
 
       <pre data-lang="python"><code>import os, requests, json, datetime as dt
-BASE  = "https://api.hostedcloudvideo.com"
-ACCT  = "&lt;ACCOUNT_ID&gt;"
+BASE = "https://api.hostedcloudvideo.com"
+ACCT = "&lt;ACCOUNT_ID&gt;"
+API  = os.environ["API_KEY"]
+
 since = (dt.datetime.utcnow()-dt.timedelta(days=1)).isoformat()+"Z"
-url   = f"{BASE}/v1/accounts/{ACCT}/health-history?cursor=&cameraIds=&start={since}"
-r = requests.get(url,headers={"Authorization":f"Bearer {os.environ['API_KEY']}"})
+url   = f"{BASE}/v1/accounts/{ACCT}/health-history?start={since}"
+r = requests.get(url,headers={"Authorization":f"Bearer {API}"})
 print(json.dumps(r.json(),indent=2))</code></pre>
 
       <pre data-lang="php" class="hidden"><code>&lt;?php
@@ -108,82 +219,109 @@ curl_setopt_array($ch,[CURLOPT_HTTPHEADER=>["Authorization: Bearer $api"],
 echo curl_exec($ch);</code></pre>
 
       <pre data-lang="shell" class="hidden"><code>curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
-  "https://api.hostedcloudvideo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/health-history?start=$(date -u -Iseconds -d '1 day ago')" </code></pre>
+  "https://api.hostedcloudvideo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/health-history?start=$(date -u -Iseconds -d '1 day ago')"</code></pre>
     </div>
   </article>
 
-  <!-- 4 ── Update camera ─────────────────────────────────────────── -->
+  <!-- ========== 4. Update a camera ========== -->
   <article id="update-camera">
-    <h2>4&nbsp;·&nbsp;Update a camera <small>/v1/cameras/{cameraId}</small></h2>
-    <!-- switcher identical to earlier answer (omitted) -->
-  </article>
+    <h2>4 · Update a camera <small>/v1/cameras/{cameraId}</small></h2>
 
-  <!-- 5 ── Snapshots for a range ─────────────────────────────────── -->
-  <article id="snapshots">
-    <h2>5&nbsp;·&nbsp;Retrieve snapshots for a timeframe <small>/v1/cameras/{cameraId}/snapshot</small></h2>
-    <p style="margin:.3rem 0 .6rem;color:#adb5bd">
-      The API delivers one image per request. Loop over your time-range or call
-      <code>/snapshot?time=ISO-8601</code>; below is a quick helper that fetches hourly stills.
-      (See also <code>/carousel</code> for stitched-together strips.):contentReference[oaicite:7]{index=7}
-    </p>
     <div class="code-sample">
       <div class="code-toolbar">
         <div>
           <button class="lang-btn active" data-lang="python"><i class="fa-brands fa-python"></i></button>
           <button class="lang-btn" data-lang="php"><i class="fa-brands fa-php"></i></button>
           <button class="lang-btn" data-lang="shell"><i class="fa-solid fa-terminal"></i></button>
-        </div><button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+        </div>
+        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+      </div>
+
+      <pre data-lang="python"><code>import os, requests
+BASE="https://api.hostedcloudvideo.com"; CAM="&lt;CAMERA_ID&gt;"
+API=os.environ["API_KEY"]
+payload={"name":"Front Door","timezone":"America/Toronto"}
+
+r=requests.put(f"{BASE}/v1/cameras/{CAM}",
+               headers={"Authorization":f"Bearer {API}",
+                        "Content-Type":"application/json"},
+               json=payload)
+print(r.status_code)</code></pre>
+
+      <pre data-lang="php" class="hidden"><code>&lt;?php
+$base='https://api.hostedcloudvideo.com'; $cam='&lt;CAMERA_ID&gt;'; $api=getenv('API_KEY');
+$payload=json_encode(['name'=>'Front Door','timezone'=>'America/Toronto']);
+$ch=curl_init("$base/v1/cameras/$cam");
+curl_setopt_array($ch,[CURLOPT_CUSTOMREQUEST=>'PUT',
+  CURLOPT_HTTPHEADER=>["Authorization: Bearer $api",'Content-Type: application/json'],
+  CURLOPT_POSTFIELDS=>$payload,CURLOPT_RETURNTRANSFER=>true]);
+echo curl_exec($ch);</code></pre>
+
+      <pre data-lang="shell" class="hidden"><code>curl -X PUT -H "Authorization: Bearer &lt;API_KEY&gt;" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Front Door","timezone":"America/Toronto"}' \
+  https://api.hostedcloudvideo.com/v1/cameras/&lt;CAMERA_ID&gt;</code></pre>
+    </div>
+  </article>
+
+  <!-- ========== 5. Snapshots in time-range ========== -->
+  <article id="snapshots">
+    <h2>5 · Retrieve snapshots for a timeframe <small>/v1/cameras/{cameraId}/snapshot</small></h2>
+    <p class="note">Loop over <code>?time=ISO-8601</code> to pull periodic stills.</p>
+
+    <div class="code-sample">
+      <div class="code-toolbar">
+        <div>
+          <button class="lang-btn active" data-lang="python"><i class="fa-brands fa-python"></i></button>
+          <button class="lang-btn" data-lang="php"><i class="fa-brands fa-php"></i></button>
+          <button class="lang-btn" data-lang="shell"><i class="fa-solid fa-terminal"></i></button>
+        </div>
+        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
       </div>
 
       <pre data-lang="python"><code>import os, requests, datetime as dt, pathlib
 BASE, CAM = "https://api.hostedcloudvideo.com", "&lt;CAMERA_ID&gt;"
-headers   = {"Authorization":f"Bearer {os.environ['API_KEY']}"}
+HEADERS   = {"Authorization":f"Bearer {os.environ['API_KEY']}"}
 
-start = dt.datetime(2025,5,1,8)      # 08:00 UTC
-end   = dt.datetime(2025,5,1,18)     # 18:00 UTC
-
-t = start
-while t &lt;= end:
-    ts  = t.isoformat()+"Z"
-    url = f"{BASE}/v1/cameras/{CAM}/snapshot?time={ts}"
-    jpg = requests.get(url,headers=headers).content
-    pathlib.Path(f"snapshot_{ts}.jpg").write_bytes(jpg)
-    t += dt.timedelta(hours=1)</code></pre>
+start = dt.datetime(2025,5,1,8); end = dt.datetime(2025,5,1,18)
+t=start
+while t<=end:
+  ts=t.isoformat()+"Z"
+  img=requests.get(f"{BASE}/v1/cameras/{CAM}/snapshot?time={ts}",
+                   headers=HEADERS).content
+  pathlib.Path(f"snapshot_{ts}.jpg").write_bytes(img)
+  t+=dt.timedelta(hours=1)</code></pre>
 
       <pre data-lang="php" class="hidden"><code>&lt;?php
-$base='https://api.hostedcloudvideo.com'; $cam='&lt;CAMERA_ID&gt;';
-$api=getenv('API_KEY');
-for($t=strtotime('2025-05-01 08:00 UTC');$t&lt;=strtotime('2025-05-01 18:00 UTC');$t+=3600){
+$base='https://api.hostedcloudvideo.com'; $cam='&lt;CAMERA_ID&gt;'; $api=getenv('API_KEY');
+for($t=strtotime('2025-05-01 08:00 UTC');$t<=strtotime('2025-05-01 18:00 UTC');$t+=3600){
   $ts=urlencode(gmdate('c',$t));
   $ch=curl_init("$base/v1/cameras/$cam/snapshot?time=$ts");
   curl_setopt_array($ch,[CURLOPT_HTTPHEADER=>["Authorization: Bearer $api"],
                         CURLOPT_RETURNTRANSFER=>true]);
-  file_put_contents("snapshot_$ts.jpg",curl_exec($ch));
+  file_put_contents("snap_$ts.jpg",curl_exec($ch));
   curl_close($ch);
 }</code></pre>
 
-      <pre data-lang="shell" class="hidden"><code># single image
-curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
+      <pre data-lang="shell" class="hidden"><code>curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
   "https://api.hostedcloudvideo.com/v1/cameras/&lt;CAMERA_ID&gt;/snapshot?time=2025-05-01T12:00:00Z" \
   -o noon.jpg</code></pre>
     </div>
   </article>
 
-  <!-- 6 ── Upload custom events ─────────────────────────────────── -->
+  <!-- ========== 6. Upload custom events ========== -->
   <article id="custom-events">
-    <h2>6&nbsp;·&nbsp;Upload custom events <small>/notify/custom/{cameraId}</small></h2>
-    <p style="margin:.3rem 0 .6rem;color:#adb5bd">
-      POST to the <em>Upload&nbsp;API</em> with up to five custom events per request.  
-      The body must follow <code>EventCreateDataDtoV3</code> – example below is lifted from
-      the spec.:contentReference[oaicite:9]{index=9}
-    </p>
+    <h2>6 · Upload custom events <small>/notify/custom/{cameraId}</small></h2>
+    <p class="note">Up to five events per request (see <code>EventCreateDataDtoV3</code> in the spec).</p>
+
     <div class="code-sample">
       <div class="code-toolbar">
         <div>
           <button class="lang-btn active" data-lang="python"><i class="fa-brands fa-python"></i></button>
           <button class="lang-btn" data-lang="php"><i class="fa-brands fa-php"></i></button>
           <button class="lang-btn" data-lang="shell"><i class="fa-solid fa-terminal"></i></button>
-        </div><button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
+        </div>
+        <button class="copy-btn"><i class="fa-regular fa-copy"></i></button>
       </div>
 
       <pre data-lang="python"><code>import os, requests, json, datetime as dt
@@ -193,11 +331,11 @@ API = os.environ['API_KEY']
 
 payload = {
   "start": dt.datetime.utcnow().isoformat()+"Z",
-  "end":   (dt.datetime.utcnow()+dt.timedelta(seconds=10)).isoformat()+"Z",
+  "end"  : (dt.datetime.utcnow()+dt.timedelta(seconds=10)).isoformat()+"Z",
   "types": {
-    "custom": [{
-      "types":  ["pointOfSale"],
-      "actions":["Paid","Refund"],
+    "custom":[{
+      "types"      :["pointOfSale"],
+      "actions"    :["Paid","Refund"],
       "boundingBox":{"width":100,"height":200,"left":300,"top":400},
       "freeformAttributes":{"storeId":"789","city":"Tampa Bay"}
     }]
@@ -211,25 +349,20 @@ r = requests.post(f"{UP}/notify/custom/{CAM}",
 print(r.status_code,r.text)</code></pre>
 
       <pre data-lang="php" class="hidden"><code>&lt;?php
-$up='https://upload.hostedcloudvideo.com'; $cam='&lt;CAMERA_ID&gt;';
-$api=getenv('API_KEY');
+$up='https://upload.hostedcloudvideo.com'; $cam='&lt;CAMERA_ID&gt;'; $api=getenv('API_KEY');
 $payload=[
-  "start"=>gmdate('c'),
-  "end"=>gmdate('c',time()+10),
-  "types"=>["custom"=>[[
-    "types"=>["pointOfSale"],
-    "actions"=>["Paid","Refund"],
-    "boundingBox"=>["width"=>100,"height"=>200,"left"=>300,"top"=>400],
-    "freeformAttributes"=>["storeId"=>"789","city"=>"Tampa Bay"]
-  ]]]
+ "start"=>gmdate('c'),"end"=>gmdate('c',time()+10),
+ "types"=>["custom"=>[[
+   "types"=>["pointOfSale"],"actions"=>["Paid","Refund"],
+   "boundingBox"=>["width"=>100,"height"=>200,"left"=>300,"top"=>400],
+   "freeformAttributes"=>["storeId"=>"789","city"=>"Tampa Bay"]
+ ]]]
 ];
 $ch=curl_init("$up/notify/custom/$cam");
 curl_setopt_array($ch,[CURLOPT_HTTPHEADER=>[
-                        "Authorization: Bearer $api",
-                        "Content-Type: application/json"],
-                      CURLOPT_POST=>true,
-                      CURLOPT_POSTFIELDS=>json_encode($payload),
-                      CURLOPT_RETURNTRANSFER=>true]);
+    "Authorization: Bearer $api","Content-Type: application/json"],
+  CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>json_encode($payload),
+  CURLOPT_RETURNTRANSFER=>true]);
 echo curl_exec($ch);</code></pre>
 
       <pre data-lang="shell" class="hidden"><code>curl -X POST \
@@ -241,29 +374,35 @@ echo curl_exec($ch);</code></pre>
   </article>
 
   <p style="margin-top:3rem">
-    Looking for something else? The full OpenAPI specs are available at
+    Need more? Check the full OpenAPI specs at
     <code>https://api.hostedcloudvideo.com</code> and
     <code>https://upload.hostedcloudvideo.com</code>.
   </p>
 </main>
 
+<!-- ───────────  SCRIPTS  ─────────── -->
 <script>
-/* language switcher + copy button – re-usable */
+/* Mobile nav toggle */
+document.querySelector('.menu-toggle')?.addEventListener('click',e=>
+  e.currentTarget.parentElement.classList.toggle('open'));
+
+/* Language switcher & copy button */
 document.querySelectorAll('.code-sample').forEach(sample=>{
-  const buttons=sample.querySelectorAll('.lang-btn');
-  const pres   =sample.querySelectorAll('pre');
-  buttons.forEach(btn=>btn.addEventListener('click',()=>{
+  const btns=sample.querySelectorAll('.lang-btn');
+  const pres=sample.querySelectorAll('pre');
+  btns.forEach(btn=>btn.addEventListener('click',()=>{
     const lang=btn.dataset.lang;
-    buttons.forEach(b=>b.classList.toggle('active',b===btn));
+    btns.forEach(b=>b.classList.toggle('active',b===btn));
     pres.forEach(p=>p.classList.toggle('hidden',p.dataset.lang!==lang));
   }));
   sample.querySelector('.copy-btn').addEventListener('click',()=>{
     const code=sample.querySelector('pre:not(.hidden) code').innerText;
     navigator.clipboard.writeText(code)
-      .then(()=>sample.querySelector('.copy-btn i')
-                    .classList.replace('fa-copy','fa-check'))
-      .finally(()=>setTimeout(()=>sample.querySelector('.copy-btn i')
-                                     .classList.replace('fa-check','fa-copy'),1200));
+      .then(()=>{
+        const icon=sample.querySelector('.copy-btn i');
+        icon.classList.replace('fa-copy','fa-check');
+        setTimeout(()=>icon.classList.replace('fa-check','fa-copy'),1200);
+      });
   });
 });
 </script>
