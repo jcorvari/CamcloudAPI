@@ -1,94 +1,152 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Camcloud API Examples</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="utf-8">
+  <title>Camcloud API Examples</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-/* ───────── GLOBAL THEME ───────── */
-:root{
-  --bg-dark:#0b1620; --bg-nav:#152534; --bg-code:#0d1117;
-  --border:#304357;  --text:#e8f0ff;   --accent:#29b6f6;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg-dark);color:var(--text);
-     font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto}
+  <style>
+  /* ───────── GLOBAL THEME ───────── */
+  :root{
+    --bg-dark:#0b1620; --bg-nav:#152534; --bg-code:#0d1117;
+    --border:#304357;  --text:#e8f0ff;   --accent:#29b6f6;
+    /* added: bg-light for fallback */
+    --bg-light:#152534; --radius:.75rem;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg-dark);
+    color:var(--text);
+    font:16px/1.55 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto
+  }
 
-/* ───────── TOP NAV ───────── */
-nav{position:sticky;top:0;z-index:999;display:flex;gap:1rem;align-items:center;
-    padding:1rem 1.5rem;background:var(--bg-nav);box-shadow:0 2px 6px rgba(0,0,0,.4)}
-nav img{height:64px}
-.menu-toggle{display:none;background:none;border:none;cursor:pointer;margin-left:auto}
-.menu-toggle svg{width:32px;height:32px;fill:#fff}
-.nav-links{display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0}
-.nav-links a{font-size:1.05rem;font-weight:600;color:var(--text);
-  text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;transition:.25s}
-.nav-links a:hover,.nav-links a:focus{color:var(--accent);border-bottom-color:var(--accent)}
-@media(max-width:700px){
-  .menu-toggle{display:block}
-  .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
-    background:var(--bg-nav);gap:1rem;text-align:center;padding:1rem 0}
-  nav.open .nav-links{display:flex}
-}
+  /* ───────── TOP NAV ───────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;                        /* ← updated */
+    background: var(--bg-light, #152534);           /* ← updated */
+    box-shadow: 0 2px 6px rgba(0,0,0,.4);
+  }
+  nav img {
+    height: 72px;                                   /* ← updated */
+  }
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: auto;
+  }
+  .menu-toggle svg {
+    width: 32px;
+    height: 32px;
+    /* fill removed so it inherits default icon color */
+  }
+  .nav-links {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    list-style: none;
+    margin-left: auto;
+    padding: 0;
+  }
+  .nav-links a {
+    font-size: 1.2rem;                              /* ← updated */
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    padding-bottom: 4px;
+    transition: color .25s, border-bottom-color .25s; /* ← updated */
+  }
+  .nav-links a:hover,
+  .nav-links a:focus {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  @media (max-width: 700px) {
+    .menu-toggle {
+      display: block;
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 72px;
+      left: 0;
+      width: 100%;
+      background: var(--bg-light, #152534);         /* ← updated */
+      padding: 1rem 0;
+      gap: 1rem;
+      text-align: center;
+    }
+    nav.open .nav-links {
+      display: flex;
+    }
+  }
 
-/* ───────── LEFT INDEX (TOC) ───────── */
-.toc{position:fixed;top:72px;left:0;width:200px;height:calc(100vh - 72px);
-     background:var(--bg-nav);border-right:1px solid var(--border);padding:1rem .75rem;overflow-y:auto}
-.toc h3{margin:.2rem 0 .8rem;font-size:1rem;font-weight:600;color:var(--accent)}
-.toc ul{list-style:none;margin:0;padding:0}
-.toc a{display:block;padding:.35rem 0;color:var(--text);text-decoration:none;font-size:.95rem;
-       border-left:3px solid transparent;transition:.25s}
-.toc a:hover,.toc a:focus{color:var(--accent);border-left-color:var(--accent)}
-@media(max-width:900px){.toc{display:none}}
+  /* ───────── LEFT INDEX (TOC) ───────── */
+  .toc{position:fixed;top:72px;left:0;width:200px;height:calc(100vh - 72px);
+       background:var(--bg-nav);border-right:1px solid var(--border);padding:1rem .75rem;overflow-y:auto}
+  .toc h3{margin:.2rem 0 .8rem;font-size:1rem;font-weight:600;color:var(--accent)}
+  .toc ul{list-style:none;margin:0;padding:0}
+  .toc a{display:block;padding:.35rem 0;color:var(--text);text-decoration:none;font-size:.95rem;
+         border-left:3px solid transparent;transition:.25s}
+  .toc a:hover,.toc a:focus{color:var(--accent);border-left-color:var(--accent)}
+  @media(max-width:900px){.toc{display:none}}
 
-/* ───────── MAIN CONTENT ───────── */
-main{max-width:960px;margin:2.5rem auto;padding:0 1rem}
-@media(min-width:900px){main{margin-left:200px}}
-h1{font-size:2.25rem;margin-bottom:1.25rem}
-h2{font-size:1.45rem;margin:2.25rem 0 1rem;color:var(--accent)}
-article{border-bottom:1px solid var(--border);padding-bottom:2.5rem}
+  /* ───────── MAIN CONTENT ───────── */
+  main{max-width:960px;margin:2.5rem auto;padding:0 1rem}
+  @media(min-width:900px){main{margin-left:200px}}
+  h1{font-size:2.25rem;margin-bottom:1.25rem}
+  h2{font-size:1.45rem;margin:2.25rem 0 1rem;color:var(--accent)}
+  article{border-bottom:1px solid var(--border);padding-bottom:2.5rem}
 
-/* Anchor-offset shim (fixes scrolling behind nav) */
-html{scroll-behavior:smooth}
-article::before{content:"";display:block;height:80px;margin-top:-80px;pointer-events:none}
+  /* Anchor-offset shim (fixes scrolling behind nav) */
+  html{scroll-behavior:smooth}
+  article::before{content:"";display:block;height:80px;margin-top:-80px;pointer-events:none}
 
-p.note{margin:.3rem 0 .6rem;color:#adb5bd;font-size:.9rem}
+  p.note{margin:.3rem 0 .6rem;color:#adb5bd;font-size:.9rem}
 
-/* ───────── CODE BLOCKS ───────── */
-.code-sample{border:1px solid var(--border);border-radius:6px;margin-top:.6rem}
-.code-toolbar{display:flex;justify-content:space-between;align-items:center;
-  background:#1e2735;padding:.35rem .6rem;border-bottom:1px solid var(--border)}
-.lang-btn{background:none;border:none;color:#c9d1d9;font-size:1.2rem;cursor:pointer;
-  margin-right:.45rem;opacity:.55;transition:opacity .2s}
-.lang-btn.active{opacity:1}
-.copy-btn{background:none;border:none;color:#c9d1d9;font-size:1.05rem;cursor:pointer}
-pre{margin:0;background:var(--bg-code);color:#c9d1d9;padding:1rem;overflow-x:auto;font-size:.88rem}
-pre.hidden{display:none}
-code{font-family:Consolas,monaco,monospace}
-</style>
+  /* ───────── CODE BLOCKS ───────── */
+  .code-sample{border:1px solid var(--border);border-radius:6px;margin-top:.6rem}
+  .code-toolbar{display:flex;justify-content:space-between;align-items:center;
+    background:#1e2735;padding:.35rem .6rem;border-bottom:1px solid var(--border)}
+  .lang-btn{background:none;border:none;color:#c9d1d9;font-size:1.2rem;cursor:pointer;
+    margin-right:.45rem;opacity:.55;transition:opacity .2s}
+  .lang-btn.active{opacity:1}
+  .copy-btn{background:none;border:none;color:#c9d1d9;font-size:1.05rem;cursor:pointer}
+  pre{margin:0;background:var(--bg-code);color:#c9d1d9;padding:1rem;overflow-x:auto;font-size:.88rem}
+  pre.hidden{display:none}
+  code{font-family:Consolas,monaco,monospace}
+  </style>
 </head>
 <body>
 
-<!-- ───────── NAV ───────── -->
-<nav>
-  <img src="images/camcloud.png" alt="Camcloud logo" />
-  
-  <button class="menu-toggle" aria-label="Menu">
-    <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"/></svg>
-  </button>
+  <!-- ───────── NAV ───────── -->
+  <nav>
+    <img src="images/camcloud.png" alt="Camcloud logo" />
+    
+    <button class="menu-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z"/></svg>
+    </button>
 
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
+      <li><a href="examples.html">Examples</a></li>
+      <li><a href="api-reference.html">API&nbsp;Reference</a></li>
+      <li><a href="changelog.html">Changelog</a></li>
+    </ul>
+  </nav>
 
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
-    <li><a href="examples.html">Examples</a></li>
-    <li><a href="api-reference.html">API&nbsp;Reference</a></li>
-    <li><a href="changelog.html">Changelog</a></li>
-  </ul>
-
-</nav>
 <!-- ───────── TOC ───────── -->
 <aside class="toc">
 <br>
