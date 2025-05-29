@@ -1,52 +1,66 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Examples – Camcloud Developer</title>
-<link rel="stylesheet" href="css/main.css">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Examples – Camcloud Developer</title>
 
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="css/main.css">
 
-<style>
-  nav{
-    position:sticky;top:0;z-index:999;
-    display:flex;align-items:center;gap:1rem;
-    padding:1.25rem 1.5rem;background:var(--bg-light,#152534);
-    box-shadow:0 2px 6px rgba(0,0,0,.4);
-  }
-  nav img{height:72px}
-  .menu-toggle{
-    display:none;background:none;border:none;cursor:pointer;margin-left:auto;
-  }
-  .menu-toggle svg{width:32px;height:32px}
-  .nav-links{
-    display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0;
-  }
-  .nav-links li a{
-    font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
-    text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
-    transition:color .25s,border-bottom-color .25s;
-  }
-  .nav-links li a:hover,.nav-links li a:focus{
-    color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
-  }
+  <!-- Optional: light syntax-highlighter if you already ship one -->
+  <!-- <link rel="stylesheet" href="css/prism.css"> -->
 
-  /* Mobile */
-  @media (max-width: 700px){
-    .menu-toggle{display:block;}
-    .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
-      background:var(--bg-light,#152534);padding:1rem 0;gap:1rem;text-align:center;}
-    nav.open .nav-links{display:flex;}
-  }
-</style>
+  <style>
+    nav{
+      position:sticky;top:0;z-index:999;
+      display:flex;align-items:center;gap:1rem;
+      padding:1.25rem 1.5rem;background:var(--bg-light,#152534);
+      box-shadow:0 2px 6px rgba(0,0,0,.4);
+    }
+    nav img{height:72px}
+    .menu-toggle{
+      display:none;background:none;border:none;cursor:pointer;margin-left:auto;
+    }
+    .menu-toggle svg{width:32px;height:32px}
+    .nav-links{
+      display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0;
+    }
+    .nav-links li a{
+      font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
+      text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
+      transition:color .25s,border-bottom-color .25s;
+    }
+    .nav-links li a:hover,.nav-links li a:focus{
+      color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
+    }
+    /* Mobile */
+    @media (max-width: 700px){
+      .menu-toggle{display:block;}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
+        background:var(--bg-light,#152534);padding:1rem 0;gap:1rem;text-align:center;}
+      nav.open .nav-links{display:flex;}
+    }
 
-</head><body>
+    /* --- page-specific --- */
+    main{max-width:960px;margin:2.5rem auto;padding:0 1rem;font-size:1rem;line-height:1.55}
+    h1{font-size:2.25rem;margin-bottom:1.25rem}
+    h2{margin:2rem 0 1rem;font-size:1.55rem;color:var(--accent,#29b6f6)}
+    h3{margin:1rem 0 .5rem;font-size:1.15rem}
+    pre{overflow-x:auto;background:#0d1117;border-radius:6px;padding:1rem;color:#c9d1d9}
+    code{font-family:Consolas,monaco,monospace;font-size:.95rem}
+    article{margin-bottom:2.5rem;border-bottom:1px solid #304357;padding-bottom:2.5rem}
+  </style>
+</head>
+<body>
 
-
+<!-- ───────── NAV ───────── -->
 <nav>
-  <img src="images/camcloud.png" alt="Camcloud logo" />
-  
+  <img src="images/camcloud.png" alt="Camcloud logo">
+
   <button class="menu-toggle" aria-label="Menu">
     <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"/></svg>
   </button>
-
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -55,20 +69,338 @@
     <li><a href="api-reference.html">API&nbsp;Reference</a></li>
     <li><a href="changelog.html">Changelog</a></li>
   </ul>
-
 </nav>
 
+<!-- ───────── PAGE CONTENT ───────── -->
+<main>
+  <h1>Practical API Examples</h1>
+  <p>
+    All calls use the same base URL and header:
+  </p>
+  <pre><code class="language-shell">BASE_URL="https://api.hostedcloudvideo.com"
+AUTH_HEADER="Authorization: Bearer &lt;API_KEY&gt;"</code></pre>
 
+  <!-- 1. AUTHORIZE -->
+  <article id="auth">
+    <h2>1. Discover your account context <small>(<code>/v1/authorizeV2</code>)</small></h2>
 
-<section><h1>Examples</h1><p>examples coming soon.</p></section>
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -H "${AUTH_HEADER}" \
+  "$BASE_URL/v1/authorizeV2"</code></pre>
+
+    <h3>Python (requests)</h3>
+    <pre><code class="language-python">import os, requests, pprint
+
+BASE_URL  = "https://api.hostedcloudvideo.com"
+API_KEY   = os.environ["API_KEY"]
+
+r = requests.get(f"{BASE_URL}/v1/authorizeV2",
+                 headers={"Authorization": f"Bearer {API_KEY}"})
+pprint.pp(r.json())</code></pre>
+
+    <h3>PHP (cURL)</h3>
+    <pre><code class="language-php">&lt;?php
+$base   = 'https://api.hostedcloudvideo.com';
+$apiKey = getenv('API_KEY');
+
+$ch = curl_init("$base/v1/authorizeV2");
+curl_setopt_array($ch, [
+  CURLOPT_HTTPHEADER     =&gt; ["Authorization: Bearer $apiKey"],
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+$response = curl_exec($ch);
+curl_close($ch);
+
+print_r(json_decode($response, true));
+?&gt;</code></pre>
+  </article>
+
+  <!-- 2. LIST CAMERAS -->
+  <article id="list-cameras">
+    <h2>2. List all cameras <small>(<code>/v1/accounts/{accountId}/cameras</code>)</small></h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -H "${AUTH_HEADER}" \
+  "$BASE_URL/v1/accounts/&lt;ACCOUNT_ID&gt;/cameras"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os, json
+
+BASE_URL   = "https://api.hostedcloudvideo.com"
+ACCOUNT_ID = "&lt;ACCOUNT_ID&gt;"
+API_KEY    = os.environ["API_KEY"]
+
+resp = requests.get(f"{BASE_URL}/v1/accounts/{ACCOUNT_ID}/cameras",
+                    headers={"Authorization": f"Bearer {API_KEY}"})
+print(json.dumps(resp.json(), indent=2))</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base   = 'https://api.hostedcloudvideo.com';
+$acctId = '&lt;ACCOUNT_ID&gt;';
+$apiKey = getenv('API_KEY');
+
+$ch = curl_init("$base/v1/accounts/$acctId/cameras");
+curl_setopt_array($ch, [
+  CURLOPT_HTTPHEADER     =&gt; ["Authorization: Bearer $apiKey"],
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <!-- 3. UPDATE CAMERA -->
+  <article id="update-camera">
+    <h2>3. Update a camera (rename / change TZ)</h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -X PUT -H "${AUTH_HEADER}" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Front Door","timezone":"America/Toronto"}' \
+  "$BASE_URL/v1/cameras/&lt;CAMERA_ID&gt;"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os
+
+BASE_URL  = "https://api.hostedcloudvideo.com"
+CAMERA_ID = "&lt;CAMERA_ID&gt;"
+API_KEY   = os.environ["API_KEY"]
+
+payload = {"name": "Front Door", "timezone": "America/Toronto"}
+r = requests.put(f"{BASE_URL}/v1/cameras/{CAMERA_ID}",
+                 headers={"Authorization": f"Bearer {API_KEY}",
+                          "Content-Type": "application/json"},
+                 json=payload)
+print(r.status_code, r.text)</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base     = 'https://api.hostedcloudvideo.com';
+$cameraId = '&lt;CAMERA_ID&gt;';
+$apiKey   = getenv('API_KEY');
+
+$payload = json_encode([
+  'name'     =&gt; 'Front Door',
+  'timezone' =&gt; 'America/Toronto'
+]);
+
+$ch = curl_init("$base/v1/cameras/$cameraId");
+curl_setopt_array($ch, [
+  CURLOPT_CUSTOMREQUEST  =&gt; 'PUT',
+  CURLOPT_HTTPHEADER     =&gt; [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($payload)
+  ],
+  CURLOPT_POSTFIELDS     =&gt; $payload,
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <!-- 4. SEARCH EVENTS -->
+  <article id="search-events">
+    <h2>4. Search motion / AI events <small>(<code>/v1/accounts/{accountId}/eventsV3</code>)</small></h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -X POST -H "${AUTH_HEADER}" -H "Content-Type: application/json" \
+  -d '{"cameraIds":["&lt;CAMERA_ID&gt;"],"events":["motion"],"rollup":"PT10S"}' \
+  "$BASE_URL/v1/accounts/&lt;ACCOUNT_ID&gt;/eventsV3"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os, json
+
+BASE_URL   = "https://api.hostedcloudvideo.com"
+ACCOUNT_ID = "&lt;ACCOUNT_ID&gt;"
+API_KEY    = os.environ["API_KEY"]
+
+payload = {
+  "cameraIds": ["&lt;CAMERA_ID&gt;"],
+  "events"   : ["motion"],
+  "rollup"   : "PT10S"
+}
+
+resp = requests.post(f"{BASE_URL}/v1/accounts/{ACCOUNT_ID}/eventsV3",
+                     headers={"Authorization": f"Bearer {API_KEY}",
+                              "Content-Type": "application/json"},
+                     json=payload)
+print(json.dumps(resp.json(), indent=2))</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base   = 'https://api.hostedcloudvideo.com';
+$acctId = '&lt;ACCOUNT_ID&gt;';
+$apiKey = getenv('API_KEY');
+
+$payload = json_encode([
+  'cameraIds' =&gt; ['&lt;CAMERA_ID&gt;'],
+  'events'    =&gt; ['motion'],
+  'rollup'    =&gt; 'PT10S'
+]);
+
+$ch = curl_init("$base/v1/accounts/$acctId/eventsV3");
+curl_setopt_array($ch, [
+  CURLOPT_POST           =&gt; true,
+  CURLOPT_HTTPHEADER     =&gt; [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json'
+  ],
+  CURLOPT_POSTFIELDS     =&gt; $payload,
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <!-- 5. EXPORT CLIP -->
+  <article id="export">
+    <h2>5. Export a clip / timelapse</h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -X POST -H "${AUTH_HEADER}" -H "Content-Type: application/json" \
+  -d '{
+        "start"  : "2025-05-01T12:00:00Z",
+        "end"    : "2025-05-01T12:30:00Z",
+        "storage": "Cloud",
+        "type"   : "Batch"
+      }' \
+  "$BASE_URL/v1/cameras/&lt;CAMERA_ID&gt;/exportsV2"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os, json, datetime
+
+BASE_URL  = "https://api.hostedcloudvideo.com"
+CAMERA_ID = "&lt;CAMERA_ID&gt;"
+API_KEY   = os.environ["API_KEY"]
+
+payload = {
+  "start"  : "2025-05-01T12:00:00Z",
+  "end"    : "2025-05-01T12:30:00Z",
+  "storage": "Cloud",
+  "type"   : "Batch"
+}
+
+resp = requests.post(f"{BASE_URL}/v1/cameras/{CAMERA_ID}/exportsV2",
+                     headers={"Authorization": f"Bearer {API_KEY}",
+                              "Content-Type": "application/json"},
+                     json=payload)
+print(json.dumps(resp.json(), indent=2))</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base     = 'https://api.hostedcloudvideo.com';
+$cameraId = '&lt;CAMERA_ID&gt;';
+$apiKey   = getenv('API_KEY');
+
+$payload = json_encode([
+  'start'  =&gt; '2025-05-01T12:00:00Z',
+  'end'    =&gt; '2025-05-01T12:30:00Z',
+  'storage'=&gt; 'Cloud',
+  'type'   =&gt; 'Batch'
+]);
+
+$ch = curl_init("$base/v1/cameras/$cameraId/exportsV2");
+curl_setopt_array($ch, [
+  CURLOPT_POST           =&gt; true,
+  CURLOPT_HTTPHEADER     =&gt; [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json'
+  ],
+  CURLOPT_POSTFIELDS     =&gt; $payload,
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <!-- 6. HEALTH SUMMARY -->
+  <article id="health">
+    <h2>6. One-line health for every camera</h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -H "${AUTH_HEADER}" \
+  "$BASE_URL/v1/accounts/&lt;ACCOUNT_ID&gt;/health"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os, json
+
+BASE_URL   = "https://api.hostedcloudvideo.com"
+ACCOUNT_ID = "&lt;ACCOUNT_ID&gt;"
+API_KEY    = os.environ["API_KEY"]
+
+r = requests.get(f"{BASE_URL}/v1/accounts/{ACCOUNT_ID}/health",
+                 headers={"Authorization": f"Bearer {API_KEY}"})
+print(json.dumps(r.json(), indent=2))</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base   = 'https://api.hostedcloudvideo.com';
+$acctId = '&lt;ACCOUNT_ID&gt;';
+$apiKey = getenv('API_KEY');
+
+$ch = curl_init("$base/v1/accounts/$acctId/health");
+curl_setopt_array($ch, [
+  CURLOPT_HTTPHEADER     =&gt; ["Authorization: Bearer $apiKey"],
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <!-- 7. NEW API KEY -->
+  <article id="apikeys">
+    <h2>7. Generate a new API key <small>(once-visible!)</small></h2>
+
+    <h3>cURL</h3>
+    <pre><code class="language-shell">curl -X POST -H "${AUTH_HEADER}" \
+  "$BASE_URL/v1/users/&lt;USER_UUID&gt;/api-keys"</code></pre>
+
+    <h3>Python</h3>
+    <pre><code class="language-python">import requests, os, json
+
+BASE_URL = "https://api.hostedcloudvideo.com"
+USER_ID  = "&lt;USER_UUID&gt;"
+API_KEY  = os.environ["API_KEY"]
+
+r = requests.post(f"{BASE_URL}/v1/users/{USER_ID}/api-keys",
+                  headers={"Authorization": f"Bearer {API_KEY}"})
+print(json.dumps(r.json(), indent=2))</code></pre>
+
+    <h3>PHP</h3>
+    <pre><code class="language-php">&lt;?php
+$base   = 'https://api.hostedcloudvideo.com';
+$userId = '&lt;USER_UUID&gt;';
+$apiKey = getenv('API_KEY');
+
+$ch = curl_init("$base/v1/users/$userId/api-keys");
+curl_setopt_array($ch, [
+  CURLOPT_POST           =&gt; true,
+  CURLOPT_HTTPHEADER     =&gt; ["Authorization: Bearer $apiKey"],
+  CURLOPT_RETURNTRANSFER =&gt; true
+]);
+echo curl_exec($ch);
+curl_close($ch);
+?&gt;</code></pre>
+  </article>
+
+  <p style="margin-top:3rem">
+    See the <a href="api-reference.html">full reference</a> for every parameter.  
+    These snippets mirror the “curl first, then code” flow shown in the
+    <em>Getting&nbsp;Started with the Camcloud APIs</em> PDF.
+  </p>
+</main>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
+  document.addEventListener('DOMContentLoaded', () => {
     const btn = document.querySelector('.menu-toggle');
-    if(btn){
-      btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
-    }
+    if(btn) btn.addEventListener('click', () => btn.parentElement.classList.toggle('open'));
   });
 </script>
-
-</body></html>
+</body>
+</html>
