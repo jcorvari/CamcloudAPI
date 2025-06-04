@@ -1,12 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Camcloud – Quick Start Guide</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Camcloud – Quick Start Guide</title>
+<link href="css/main.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<style>
     :root {
       --bg-dark: #0b1620;
       --bg-nav: #152534;
@@ -152,86 +153,59 @@
   </style>
 </head>
 <body>
-
-  <nav>
-    <img src="images/camcloud.png" alt="Camcloud logo" />
-    <button class="menu-toggle" aria-label="Menu">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"/>
-      </svg>
-    </button>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="quick-start.html">Quick&nbsp;Start</a></li>
-      <li><a href="examples.html">Examples</a></li>
-      <li><a href="api-reference.html">API&nbsp;Reference</a></li>
-      <li><a href="changelog.html">Changelog</a></li>
-    </ul>
-  </nav>
-
-  <main>
-    <h1>Quick Start – Integrate with Camcloud REST API in 5 Steps</h1>
-    <p>This concise guide walks you from obtaining an API key to pulling your very first snapshot, leveraging the live Swagger UI so you can copy-paste IDs directly into your code.</p>
-
-    <h2>1. Generate an API Key</h2>
-    <p>In the Camcloud portal open <strong>Settings → API Keys</strong>, press <em>Create</em> and copy the key that appears (it’s shown only once).</p>
-    <img src="images/step1.png" alt="Generate API key" class="screenshot">
-
-    <h2>2. Authorise in Swagger</h2>
-    <p>Go to <code>https://api.hostedcloudvideo.com</code>, click <strong>Authorize</strong>, paste the key into the <code>bearerAuth</code> field and confirm.</p>
-    <img src="images/step2.png" alt="Swagger authorize" class="screenshot">
-
-    <h2>3. Discover your <code>accountId</code></h2>
-    <p>Run <code>POST /v1/authorizeV2</code>. The response payload contains <code>accountId</code>, <code>userUuid</code> and your role.</p>
-    <img src="images/step3.png" alt="authorizeV2 response" class="screenshot">
-    <pre><code class="language-json">{
-  "accountId": "123456",
-  "userUuid": "550e8400-e29b-41d4-a716-446655440000",
-  ...
-}</code></pre>
-
-    <h2>4. List cameras &amp; capture a <code>cameraId</code></h2>
-    <p>Call <code>GET /v1/accounts/&lt;accountId&gt;/cameras</code> or execute <em>ListCamerasV1</em> in Swagger. Copy one <code>id</code> value for the next step.</p>
-    <img src="images/step4.png" alt="List cameras" class="screenshot">
-    <pre><code class="language-shell">curl -H "Authorization: Bearer &lt;API_KEY&gt;" \
-  https://api.hostedcloudvideo.com/v1/accounts/&lt;ACCOUNT_ID&gt;/cameras
-</code></pre>
-
-    <h2>5. Pull your first snapshot</h2>
-    <p>Fetch a live JPEG (or add <code>?time=ISO-8601</code> for historical) via <code>/v1/cameras/&lt;cameraId&gt;/snapshot</code>.</p>
-    <img src="images/step5.png" alt="Snapshot endpoint" class="screenshot">
-    <pre><code class="language-python">import os, requests
-BASE = "https://api.hostedcloudvideo.com"
-CAM  = "&lt;CAMERA_ID&gt;"
-API  = os.environ["API_KEY"]
-
-snap = requests.get(f"{BASE}/v1/cameras/{CAM}/snapshot",
-                   headers={"Authorization": f"Bearer {API}"})
-open("latest.jpg","wb").write(snap.content)
-</code></pre>
-
-    <h2>Cheat-Sheet: Common Endpoints</h2>
-    <table>
-      <thead>
-        <tr><th>Endpoint</th><th>Method</th><th>Purpose</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>/v1/cameras</td><td>GET</td><td>List cameras (account-wide)</td></tr>
-        <tr><td>/v1/cameras</td><td>POST</td><td>Add a new camera (P2P, ONVIF, RTSP)</td></tr>
-        <tr><td>/v1/cameras/{{cameraId}}</td><td>PUT</td><td>Rename / change timezone</td></tr>
-        <tr><td>/v1/cameras/{{cameraId}}/snapshot</td><td>GET</td><td>Live or historical JPEG</td></tr>
-        <tr><td>/v1/accounts/{{accountId}}/health</td><td>GET</td><td>One-line health status</td></tr>
-      </tbody>
-    </table>
-
-    <h2>Next Steps</h2>
-    <ul>
-      <li>Copy ready-made code on the <a href="examples.html">Examples</a> page (Python, PHP, cURL).</li>
-      <li>Dive into the full <a href="api-reference.html">OpenAPI spec</a> for advanced features (AI analytics, exports, schedules).</li>
-    </ul>
-  </main>
-
-  <script>
+<nav>
+<img alt="Camcloud logo" src="images/camcloud.png"/>
+<button aria-label="Menu" class="menu-toggle">
+<svg viewbox="0 0 24 24">
+<path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"></path>
+</svg>
+</button>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="quick-start.html">Quick Start</a></li>
+<li><a href="examples.html">Examples</a></li>
+<li><a href="api-reference.html">API Reference</a></li>
+<li><a href="changelog.html">Changelog</a></li>
+</ul>
+</nav>
+<p></p>
+<h1>Step 1: Obtain an API Key</h1>
+<p>Every account has the ability to generate an API key. Go to your Settings page in the customer portal. You’ll see a spot to generate a new key at the bottom of the page:</p>
+<p></p>
+<p><img class="screenshot" src="images/docx_img_4.png"/></p>
+<p></p>
+<p>You can now copy the key created.</p>
+<p></p>
+<p><img class="screenshot" src="images/docx_img_2.png"/></p>
+<p>All authorization is completed with this key. Keep in mind that the key you created will give you access according to your account. For example if you are an admin then you have access to all operations. However if you are a viewer role then you only have read access to certain items.</p>
+<h1>Step 2: Authenticate with the Swagger APIs</h1>
+<p></p>
+<p>Before starting any coding exercise, start with the Swagger APIs to test certain operations.</p>
+<p></p>
+<p>Start by authorizing using your API key in step #1. </p>
+<p></p>
+<p><img class="screenshot" src="images/docx_img_7.png"/></p>
+<p></p>
+<p>Authenticate with the (bearerAuth) using your API key and press Authorize. Note: Oauth authentication is not currently supported.</p>
+<p></p>
+<p><img class="screenshot" src="images/docx_img_6.png"/> </p>
+<p></p>
+<p>Once you’re authorized you can close this window and start executing any API command.</p>
+<p></p>
+<h1>Step 3: Test various APIs<br/><br/>Account ID</h1>
+<p>In order to perform a good amount of the API functions you will need the Account ID and/or the Camera ID.<br/><br/>To obtain the account ID you simply can run the AuthorizeV2 command after you have authenticated your  page:<br/><img class="screenshot" src="images/docx_img_9.png"/></p>
+<p><br/>This will result in the following response, where you can obtain your accountID:<br/><img class="screenshot" src="images/docx_img_11.png"/><br/></p>
+<p>Camera ID<br/></p>
+<p>The camera ID can now be obtained using the Account ID with the ListCamerasV1 command:<br/><img class="screenshot" src="images/docx_img_10.png"/><br/>From here you can simply enter the Account ID you’ve obtained with the AuthorizeV2 command and when you execute this command you will be provided a list where you can obtain the camera ID for all cameras on the account:<br/><img class="screenshot" src="images/docx_img_13.png"/><br/><br/><br/>Get a Live View URI</p>
+<p></p>
+<p>From here you are open to run most of the API commands available, such as StartStreamV1:<br/><img class="screenshot" src="images/docx_img_12.png"/></p>
+<p>I simply entered the Camera_ID for the camera I want to retrieve a live stream for, selected the preferred stream protocol and clicked execute. I’m then provided with the URI that can be embedded into a webpage or used for third-party integrations.<br/><img class="screenshot" src="images/docx_img_1.png"/></p>
+<p></p>
+<p>Get a Snapshot</p>
+<p>getSnapshotForCameraV1:<br/><img class="screenshot" src="images/docx_img_5.png"/></p>
+<p>I simply entered the Camera_ID for the camera I wanted and executed the command for a live snapshot of the camera:<br/><img class="screenshot" src="images/docx_img_3.png"/></p>
+<p><br/>Alternatively you can specify a timestamp using the UTC format (ie: 2024-04-29T16:42:31Z) to get a specific date/time:<br/><img class="screenshot" src="images/docx_img_8.png"/></p></main>
+<script>
     /* mobile nav toggle */
     document.querySelector('.menu-toggle')?.addEventListener('click', e =>
       e.currentTarget.parentElement.classList.toggle('open')
@@ -239,4 +213,3 @@ open("latest.jpg","wb").write(snap.content)
   </script>
 </body>
 </html>
-
