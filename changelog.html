@@ -1,52 +1,61 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Changelog – Camcloud Developer</title>
-<link rel="stylesheet" href="css/main.css">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Changelog – Camcloud Developer</title>
+  <link rel="stylesheet" href="css/main.css">
 
-
-<style>
-  nav{
-    position:sticky;top:0;z-index:999;
-    display:flex;align-items:center;gap:1rem;
-    padding:1.25rem 1.5rem;background:var(--bg-light,#152534);
-    box-shadow:0 2px 6px rgba(0,0,0,.4);
-  }
-  nav img{height:72px}
-  .menu-toggle{
-    display:none;background:none;border:none;cursor:pointer;margin-left:auto;
-  }
-  .menu-toggle svg{width:32px;height:32px}
-  .nav-links{
-    display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0;
-  }
-  .nav-links li a{
-    font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
-    text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
-    transition:color .25s,border-bottom-color .25s;
-  }
-  .nav-links li a:hover,.nav-links li a:focus{
-    color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
-  }
-
-  /* Mobile */
-  @media (max-width: 700px){
-    .menu-toggle{display:block;}
-    .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
-      background:var(--bg-light,#152534);padding:1rem 0;gap:1rem;text-align:center;}
-    nav.open .nav-links{display:flex;}
-  }
-</style>
-
-</head><body>
-
+  <!-- Inline tweaks just for the changelog accordion -->
+  <style>
+    nav{
+      position:sticky;top:0;z-index:999;
+      display:flex;align-items:center;gap:1rem;
+      padding:1.25rem 1.5rem;background:var(--bg-light,#152534);
+      box-shadow:0 2px 6px rgba(0,0,0,.4);
+    }
+    nav img{height:72px}
+    .menu-toggle{
+      display:none;background:none;border:none;cursor:pointer;margin-left:auto;
+    }
+    .menu-toggle svg{width:32px;height:32px}
+    .nav-links{
+      display:flex;flex:1;justify-content:space-evenly;list-style:none;margin-left:auto;padding:0;
+    }
+    .nav-links li a{
+      font-size:1.2rem;font-weight:600;color:var(--text,#e8f0ff);
+      text-decoration:none;border-bottom:3px solid transparent;padding-bottom:4px;
+      transition:color .25s,border-bottom-color .25s;
+    }
+    .nav-links li a:hover,.nav-links li a:focus{
+      color:var(--accent,#29b6f6);border-bottom-color:var(--accent,#29b6f6);
+    }
+    /* Mobile */
+    @media (max-width: 700px){
+      .menu-toggle{display:block;}
+      .nav-links{display:none;flex-direction:column;position:absolute;top:72px;left:0;width:100%;
+        background:var(--bg-light,#152534);padding:1rem 0;gap:1rem;text-align:center;}
+      nav.open .nav-links{display:flex;}
+    }
+    /* Changelog accordion styles */
+    section{max-width:900px;margin:2rem auto;padding:0 1rem;color:var(--text,#e8f0ff);}
+    h1{margin-bottom:1.5rem;font-size:2.25rem;}
+    details{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:0.5rem;margin-bottom:1rem;}
+    details[open]{box-shadow:0 0 0 2px var(--accent,#29b6f6);}
+    summary{cursor:pointer;font-size:1.125rem;font-weight:700;padding:1rem;list-style:none;}
+    summary::-webkit-details-marker{display:none;}
+    details > *:not(summary){padding:0 1.25rem 1.25rem 1.25rem;}
+    ul{margin:0;padding-left:1.2rem;}
+  </style>
+</head>
+<body>
 
 <nav>
   <img src="images/camcloud.png" alt="Camcloud logo" />
-  
+
   <button class="menu-toggle" aria-label="Menu">
     <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 11h18v2H3zM3 16h18v2H3z" fill="#ffffff"/></svg>
   </button>
-
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
@@ -55,12 +64,36 @@
     <li><a href="api-reference.html">API&nbsp;Reference</a></li>
     <li><a href="changelog.html">Changelog</a></li>
   </ul>
-
 </nav>
 
+<section>
+  <h1>Changelog</h1>
 
-  
-<section><h1>Changelog</h1><p>v1.0  | June 17 2025  | Initial Release</p></section>
+  <!-- v1.2 -->
+  <details open id="v1-2">
+    <summary>v1.2 &nbsp;|&nbsp; June&nbsp;17&nbsp;2025 &nbsp;|&nbsp; Improvements &amp; New Functionality</summary>
+    <ul>
+      <li><strong>User logging API</strong> – new <code>/v1/user-logs</code> endpoints provide fine-grained audit trails for web &amp; mobile access, including source (web/mobile), action (view/add/edit/delete) and camera/group counts. (see Camcloud blog)</li>
+      <li>Added helper examples in the docs showing how to query logs for a single user or an entire account, plus sample dashboards using Klipfolio.</li>
+    </ul>
+  </details>
+
+  <!-- v1.1 -->
+  <details id="v1-1">
+    <summary>v1.1 &nbsp;|&nbsp; January&nbsp;12&nbsp;2025 &nbsp;|&nbsp; New Functionality</summary>
+    <ul>
+      <li><strong>Live View streaming API</strong> – introduced HLS endpoints (<code>/v1/cameras/{camera_id}/stream</code>) for low-latency viewing across browsers and mobile apps.</li>
+      <li><strong>Media download API</strong> – new <code>/v1/media/{media_id}/download</code> route lets clients export MP4 clips or JPEG snapshots on demand. Supports time-range parameters and direct-to-S3 transfer.</li>
+      <li>Updated authorization flow to support long-lived tokens for continuous playback &amp; downloads.</li>
+    </ul>
+  </details>
+
+  <!-- v1.0 -->
+  <details id="v1-0">
+    <summary>v1.0 &nbsp;|&nbsp; December&nbsp;02&nbsp;2024 &nbsp;|&nbsp; Initial Release</summary>
+    <p>No additional notes.</p>
+  </details>
+</section>
 
 <script>
   document.addEventListener('DOMContentLoaded', function(){
@@ -71,4 +104,5 @@
   });
 </script>
 
-</body></html>
+</body>
+</html>
